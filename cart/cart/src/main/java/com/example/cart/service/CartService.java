@@ -96,5 +96,15 @@ public class CartService {
         return mapToCartResponse(updatedCart);
     }
 
+    public void clearCart(String userId) {
+        Cart cart = cartRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Cart not found for user " + userId));
+
+        // Clear cart by deleting all items
+        cart.getItems().clear();
+        cartRepository.save(cart);  // Save empty cart
+    }
+
+
 
 }
